@@ -11,23 +11,32 @@
         var canvas;
         var canvasContext;
         var ballX = 50;
+        var framesPerSecond = 30;
         window.onload = function(){
             canvas = document.getElementById("gameCanvas");
             canvasContext = canvas.getContext("2d");
-            setInterval(drawEverything,10)
+            setInterval(function() {
+                moveEverything();
+                drawEverything();
+            },1000/framesPerSecond);
         }
-         function drawEverything() {
+
+        function moveEverything(){
             if(ballX>=canvas.width-25){
                 ballX = -25;
             }else{
                 ballX = ballX + 1;
             }
+        }
+
+        function drawEverything() {
+            
             
             console.log(ballX);
             canvasContext.fillStyle = 'black';
             canvasContext.fillRect(0,0,canvas.width, canvas.height);
             canvasContext.fillStyle = 'white';
-            canvasContext.fillRect(255,210,200,200);
+            canvasContext.fillRect(0,210,10,100);
             canvasContext.fillStyle = 'red';
             canvasContext.fillRect(ballX,200,50,25);
          }
