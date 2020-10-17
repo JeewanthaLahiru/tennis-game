@@ -35,12 +35,21 @@
                 drawEverything();
             },1000/framesPerSecond);
 
+            canvas.addEventListener('mousedown', handleMouseClick);
+
             canvas.addEventListener('mousemove',
                 function(evt){
                     var mousePos = calculateMousePos(evt);
                     paddle1Y = mousePos.y - PADDLE_HEIGHT/2;
                 }
             );
+        }
+        function handleMouseClick(evt){
+            if(showingWinScreen){
+                player1Score = 0;
+                player2Score = 0;
+                showingWinScreen = false;
+            }
         }
 
         function calculateMousePos(evt){
@@ -111,7 +120,12 @@
 
             if(showingWinScreen){
                 canvasContext.fillStyle= "white";
-                canvasContext.fillText("click to continue",100,100);
+                if(player1Score >= WINNING_SCORE){
+                    canvasContext.fillText("Left player won!",350,200);
+                }else if(player2Score >= WINNING_SCORE){
+                    canvasContext.fillText("Right player won!",350,200);
+                }
+                canvasContext.fillText("click to continue",350,500);
                 return;
             }else{
                 colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
@@ -129,8 +143,6 @@
 
         function ballReset(){
             if(player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE){
-                player1Score = 0;
-                player2Score = 0;
                 showingWinScreen = true;
             }
             ballSpeedX = -ballSpeedX;
